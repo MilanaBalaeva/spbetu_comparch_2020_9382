@@ -50,13 +50,17 @@ skip_abs_1:
 	cmp AX,0
 	jge f3_b
 	mov AX,I1
-	sub ax, bx
+	sub AX, BX
 	cmp AX, 0
 	jge f3_end
 	neg AX
 	jmp f3_end
 	
 f3_b:
+	cmp BX, 0
+	jge skip_abs_2
+	neg bx
+skip_abs_2:
 	cmp BX,7
 	jge max_b
 	mov AX, 7
