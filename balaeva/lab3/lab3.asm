@@ -6,7 +6,7 @@ DATA SEGMENT
 	A 	DW 0
 	B 	DW 0
 	I 	DW 0
-	K 	DW 0
+	K 	DW -1
 	I1 	DW ?
 	I2 	DW ?
 	RES DW ?
@@ -43,21 +43,19 @@ cond_b:
 	neg BX
 	sub BX, 4; BX-4
 	mov I2,BX
+
 f3:
-	cmp BX,0; i2 is there and we need abs value in both parts
-	jge skip_abs_1
-	neg BX
 skip_abs_1:
 	mov AX,K
 	cmp AX,0
 	jge f3_b
 	mov AX,I1
+	sub ax, bx
 	cmp AX, 0
-	jge skip_abs_2
+	jge f3_end
 	neg AX
-skip_abs_2:
-	sub AX,BX
 	jmp f3_end
+	
 f3_b:
 	cmp BX,7
 	jge max_b
