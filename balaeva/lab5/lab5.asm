@@ -61,6 +61,22 @@ Main      PROC  FAR
 Main      ENDP
 
 delayInt PROC FAR
+        jmp start
+
+        ST_SS DW 0000
+        ST_AX DW 0000
+        ST_SP DW 0000
+        IStack DW 30 DUP(?)
+
+start:
+
+mov ST_SP, SP
+mov ST_AX, AX
+mov AX, SS
+mov ST_SS, AX
+mov AX, IStack
+mov SS, AX
+mov AX, ST_AX
 	push ax
 	push ds
 	mov di,32
@@ -74,9 +90,15 @@ Delay:
 	cmp di,dx
 	ja Delay;переход,если больше
 	pop dx
-	pop ax
+        pop ax
+	mov ST_AX,AX
+	mov AX,ST_SS
+	mov SS,AX
+	mov SP,ST_SP
+	mov AX,ST_AX
 	mov al,20h
 	out 20h,al
+       
 	iret
 delayInt ENDP
 CODE      ENDS
